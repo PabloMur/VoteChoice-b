@@ -88,18 +88,18 @@ export const APIGetInRoom = async (roomId) => {
         console.error("hola: " + error);
     }
 };
-export const APIGetResultsLastRoom = async (email) => {
+export const APIGetResultsLastRoom = async (userEmail) => {
     try {
-        const fetching = await fetch(
-            callURL + `getLastRoomResults?userEmail=${email}`,
-            {
-                method: "GET",
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
+        const fetching = await fetch(callURL + `getLastRoomResults`, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userEmail,
+            }),
+        });
         const response = await fetching.json();
         return response;
     } catch (error) {
@@ -144,12 +144,15 @@ export const APICheckRoomStatus = async (roomId) => {
 };
 export const APIGetRoomOptions = async (roomId) => {
     try {
-        const fetching = await fetch(callURL + `getResults?roomId=${roomId}`, {
-            method: "GET",
+        const fetching = await fetch(callURL + `getResults`, {
+            method: "POST",
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
             },
+            body: JSON.stringify({
+                roomId,
+            }),
         });
         const response = await fetching.json();
         return response;
@@ -159,12 +162,15 @@ export const APIGetRoomOptions = async (roomId) => {
 };
 export const APIGetMyRooms = async (email) => {
     try {
-        const fetching = await fetch(callURL + `myRooms?userEmail=${email}`, {
-            method: "GET",
+        const fetching = await fetch(callURL + `myRooms`, {
+            method: "POST",
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
             },
+            body: JSON.stringify({
+                userEmail,
+            }),
         });
         const response = await fetching.json();
         return response;
