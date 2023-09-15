@@ -1,14 +1,22 @@
+// Descripción: Este archivo contiene un endpoint que permite obtener información sobre la última sala vencida creada por 
+// un usuario en la aplicación.
+
+// Funcionamiento: El endpoint recibe una solicitud POST con el correo electrónico del usuario en el cuerpo de la solicitud.
+// Luego, realiza una consulta en la base de datos para encontrar las salas creadas por ese usuario. Si el usuario ha creado
+// salas, el endpoint busca la última sala vencida entre las que ha creado y proporciona información sobre ella. 
+// Esta información se utiliza para presentar estadísticas sobre la sala vencida más reciente del usuario, como las opciones
+// más votadas y el número total de participantes. Si el usuario no tiene salas vencidas, se devuelve un mensaje indicando
+// que no hay salas vencidas creadas por el usuario.
+
 import { firestoreDB } from "@/lib/firebaseConn";
 import { NextResponse } from "next/server";
 import { compararFechas } from "@/lib/Tools";
 
-// Endpoint que trae los datos de la última sala vencida
 export async function POST(request) {
     try {
         const body = await request.json();
         const { userEmail } = body;
 
-        // Consulta para verificar si el usuario ha creado salas
         const createdRoomsQuery = await firestoreDB
             .collection("rooms")
             .where("createdBy", "==", userEmail)
@@ -49,7 +57,7 @@ export async function POST(request) {
 
         let last = lastExpiredRoom.at(-1);
 
-        if (last !== null) {
+        if (last !== undefined) {
             // Extraer los resultados de las opciones y los votos
             const resultsData = Object.values(last.options);
 
@@ -60,10 +68,20 @@ export async function POST(request) {
             const totalParticipants = last.participants.length;
 
             // Calcular el porcentaje de votos en cada opción
-            const resultsWithPercentage = resultsData.map((option) => ({
-                ...option,
-                percentage: (option.timesVoted / totalParticipants) * 100,
-            }));
+            const resultsWithPercentage = resultsData.map((option) => {
+                if (option.timesVoted === 0) {
+                    return {
+                        ...option,
+                        percentage: 0,
+                    };
+                } else {
+                    return {
+                        ...option,
+                        percentage:
+                            (option.timesVoted / totalParticipants) * 100,
+                    };
+                }
+            });
 
             // Tomar la opción más votada y la segunda más votada
             const firstOption = resultsData[0];

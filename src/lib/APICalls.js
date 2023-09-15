@@ -1,3 +1,7 @@
+// Descripción: Son funciones que se utilizan para facilitar los llamados a las APIs asociadas a los endpoints que
+// garantizan el funcionamiento correcto de la aplicación, se utilizan desde el front para hacer peticiones via APIs
+
+
 const callURL = "/api/";
 
 //APICalls de User
@@ -21,9 +25,9 @@ export const APICreateUser = async (name, email, password) => {
         console.error(error);
     }
 };
-export const APIDeleteUser = async (userEmail) => {
+export const APIDeleteUser = async (email) => {
     try {
-        const fetching = await fetch(callURL + `deleteUser/${userEmail}`, {
+        const fetching = await fetch(callURL + `deleteUser?email=${email}`, {
             method: "DELETE",
             mode: "cors",
             headers: {
@@ -88,7 +92,7 @@ export const APIGetInRoom = async (roomId) => {
         console.error("hola: " + error);
     }
 };
-export const APIGetResultsLastRoom = async (userEmail) => {
+export const APIGetResultsLastRoom = async (email) => {
     try {
         const fetching = await fetch(callURL + `getLastRoomResults`, {
             method: "POST",
@@ -96,9 +100,7 @@ export const APIGetResultsLastRoom = async (userEmail) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                userEmail,
-            }),
+            body: JSON.stringify({ userEmail: email }),
         });
         const response = await fetching.json();
         return response;
@@ -135,9 +137,7 @@ export const APICheckRoomStatus = async (roomId) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                roomId,
-            }),
+            body: JSON.stringify({ roomId }),
         });
         const response = await fetching.json();
         return response;
@@ -153,9 +153,7 @@ export const APIGetRoomOptions = async (roomId) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                roomId,
-            }),
+            body: JSON.stringify({ roomId }),
         });
         const response = await fetching.json();
         return response;
@@ -171,8 +169,72 @@ export const APIGetMyRooms = async (email) => {
             headers: {
                 "Content-Type": "application/json",
             },
+            body: JSON.stringify({ userEmail: email }),
+        });
+        const response = await fetching.json();
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const APIGetMe = async (email) => {
+    try {
+        const fetching = await fetch(callURL + `me`, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
             body: JSON.stringify({
-                userEmail,
+                userEmail: email,
+            }),
+        });
+        const response = await fetching.json();
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const APIUpdateMe = async (email, data) => {
+    try {
+        const fetching = await fetch(callURL + `updateMe`, {
+            method: "PUT",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userEmail: email,
+                updatedUserData: data,
+            }),
+        });
+        const response = await fetching.json();
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const APIContactUs = async (
+    contactEmail,
+    contactMessage,
+    contactPhone,
+    contactName
+) => {
+    try {
+        const fetching = await fetch(callURL + `contactUs`, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                contactEmail,
+                contactMessage,
+                contactPhone,
+                contactName,
             }),
         });
         const response = await fetching.json();
