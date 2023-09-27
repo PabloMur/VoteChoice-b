@@ -108,7 +108,7 @@ VoteChoice es tu solución perfecta. Con nuestra aplicación, puedes:
 
 ## 🚀 ¿Como usar?
 
-<h3>Para ver todo esto en acción y experimentar la facilidad de VoteChoice, ¡visita nuestra <a href="https://nocountry-deploy.vercel.app/">página en vivo aquí</a>!</h3>
+<h3>Para ver todo esto en acción y experimentar la facilidad de VoteChoice, ¡visita nuestra <a href="https://b-votechoice.vercel.app/">página en vivo aquí</a>!</h3>
 
 
 
