@@ -1,4 +1,4 @@
-// El componente "Login" de la aplicación web es una página que permite a los usuarios iniciar sesión en sus cuentas. 
+// El componente "Login" de la aplicación web es una página que permite a los usuarios iniciar sesión en sus cuentas.
 // En esta página, los usuarios pueden ingresar su dirección de correo electrónico y contraseña o mediante un formulario
 // de registro para acceder a la plataforma. También tienen la opción de iniciar sesión utilizando sus cuentas de Google.
 
@@ -22,13 +22,12 @@ const Login = () => {
     const { data: session, status } = useSession();
     const [loaderActive, setLoaderActive] = useState(false);
 
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      const userData = session?.user?.id;
-      router.push(`/login/${userData}`);
-    }
-  }, [status]);
+    useEffect(() => {
+        if (status === "authenticated") {
+            const userData = session?.user?.id;
+            router.push(`/login/${userData}`);
+        }
+    }, [status]);
 
     const cerrarModal = () => {
         setStateModal(!stateModal);
@@ -74,7 +73,7 @@ const Login = () => {
                                     EMAIL{" "}
                                 </label>
                                 <input
-                                    className="w-full border-b text-black dark:text-darkBlack border-secondaryBlack dark:border-secondaryWhite bg-slate-50 px-2 h-8"
+                                    className="w-full border-b text-black  border-secondaryBlack  bg-slate-50 px-2 h-8"
                                     type="email"
                                     name="email"
                                     id="email"
@@ -100,11 +99,9 @@ const Login = () => {
                             <GoogleButton />
                         </div>
                         <div className="flex gap-4 my-7">
-                            <hr className="flex-grow border-secondaryBlack dark:border-secondaryWhite mt-3" />
-                            <span className=" font-dmsans font-medium">
-                                OR
-                            </span>
-                            <hr className="flex-grow border-secondaryBlack dark:border-secondaryWhite mt-3" />
+                            <hr className="flex-grow border-secondaryBlack mt-3" />
+                            <span className=" font-dmsans font-medium">OR</span>
+                            <hr className="flex-grow border-secondaryBlack mt-3" />
                         </div>
                         <button
                             className="text-primaryPurple font-dmsans font-medium border-primaryPurple border rounded-full w-full py-2"
